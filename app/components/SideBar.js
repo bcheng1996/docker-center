@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Layout, Menu, Icon } from 'antd';
 
-const { Header, Content, Footer, Sider } = Layout;
+const { Sider } = Layout;
 const { SubMenu } = Menu;
 
 export default class SideBar extends React.Component {
@@ -24,9 +24,13 @@ export default class SideBar extends React.Component {
     const { collapsed } = this.state;
     return (
       <Layout style={{ minHeight: '100vh' }}>
-        <Sider collapsible collapsed={collapsed} onCollapse={this.onCollapse}>
-          <div className="logo"> Docker Center </div>
-          <Menu theme="dark" defaultSelectedKeys={['1']} mode="inline">
+        <Sider
+          theme="light"
+          collapsible
+          collapsed={collapsed}
+          onCollapse={this.onCollapse}
+        >
+          <Menu theme="light" defaultSelectedKeys={['1']} mode="inline">
             <Menu.Item key="1">
               <Icon type="pie-chart" />
               <span>Option 1</span>
@@ -66,13 +70,7 @@ export default class SideBar extends React.Component {
             </Menu.Item>
           </Menu>
         </Sider>
-        <Layout>
-          <Header style={{ background: '#fff', padding: 0 }} />
-          <Content style={{ margin: '0 16px' }}>{children}</Content>
-          <Footer style={{ textAlign: 'center' }}>
-            Ant Design ©2018 Created by Ant UED
-          </Footer>
-        </Layout>
+        <Layout>{children}</Layout>
       </Layout>
     );
   }
