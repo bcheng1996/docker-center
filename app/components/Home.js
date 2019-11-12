@@ -12,7 +12,8 @@ import {
   Typography,
   Input
 } from 'antd';
-import Map from './Map';
+import Map from '../containers/Map';
+import SearchHeader from '../containers/SearchHeader';
 import Colors from '../constants/Colors';
 
 const { Search } = Input;
@@ -57,57 +58,7 @@ export default class Home extends Component<Props> {
             background: '#fff'
           }}
         >
-          <Header style={styles.header}>
-            <Row type="flex" justify="start" gutter={[14, 0]}>
-              <Col span={4}>
-                <Search
-                  placeholder="Search Location"
-                  onSearch={value => console.log(value)}
-                  style={{ width: 250 }}
-                />
-              </Col>
-
-              <Col span={1.5}>
-                <Popover
-                  placement="bottom"
-                  title="Bottom"
-                  content="bottom"
-                  trigger="click"
-                >
-                  <Button type="primary" ghost style={styles.popoverButton}>
-                    {' '}
-                    Price{' '}
-                  </Button>
-                </Popover>
-              </Col>
-              <Col span={1.5}>
-                <Popover
-                  placement="bottom"
-                  title="Bottom"
-                  content="bottom"
-                  trigger="click"
-                >
-                  <Button type="primary" ghost style={styles.popoverButton}>
-                    {' '}
-                    Beds{' '}
-                  </Button>
-                </Popover>
-              </Col>
-              <Col span={1.5}>
-                <Popover
-                  placement="bottom"
-                  title="Bottom"
-                  content="bottom"
-                  trigger="click"
-                >
-                  <Button type="primary" ghost style={styles.popoverButton}>
-                    {' '}
-                    Home Type
-                  </Button>
-                </Popover>
-              </Col>
-            </Row>
-          </Header>
+          <SearchHeader/>
           <Layout>
             <Sider width={0} />
             <Content>
