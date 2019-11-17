@@ -10,17 +10,21 @@ import {
   List,
   Card,
   Typography,
-  Input
+  Input,
+  Modal
 } from 'antd';
 import Map from '../containers/Map';
 import SearchHeader from '../containers/SearchHeader';
 import Colors from '../constants/Colors';
+import PropertyModal from '../containers/PropertyModal';
 
 const { Search } = Input;
 const { Header, Content, Sider } = Layout;
 const { Title } = Typography;
 
-type Props = {};
+type Props = {
+  visible: Boolean
+};
 
 export default class Home extends Component<Props> {
   props: Props;
@@ -52,6 +56,7 @@ export default class Home extends Component<Props> {
     ];
     return (
       <Layout>
+        <PropertyModal />
         <Content
           style={{
             minHeight: 280,
