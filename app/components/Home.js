@@ -94,7 +94,7 @@ export default class Home extends Component<Props> {
                       >
                         <Row type="flex" justify="space-between" aligh="bottom">
                           <Col>
-                            <Title level={4}>$670,000</Title>
+                            <Title level={4}>51747943</Title>
                           </Col>
                           <Col>5 bd | 8 ba | 15,000 sqft </Col>
                         </Row>

@@ -7,7 +7,8 @@ function mapStateToProps(state) {
     console.log("STATE", state)
   return {
       search_term: state.search.search_term,
-      center: state.search.center
+      center: state.search.center,
+      property: state.search.property,
   };
 }
 
