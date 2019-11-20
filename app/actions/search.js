@@ -46,15 +46,15 @@ export function searchProperty(search_term) {
             let res_property = res['Zestimate:zestimate']['response']
             // dispatch(search_success(res_property))
             // dispatch(center_map(res_property['address']['latitude'], res_property['address']['longitude']))
-            Zillow.getPropertyDetails(search_term)
+            Zillow.deepSearch(res_property['address']['street'], res_property['address']['city'] + ", " + res_property['address']['state'])
               .then(detailed_response => {
                 if(detailed_response) {
                   console.log("Detailed response")
                   // Detailed response with addtional property information
                   parser.parseString(detailed_response, (err, detailed_res)=> {
-                    const res_detailed_property = detailed_res['UpdatedPropertyDetails:updatedPropertyDetails']
+                    const res_detailed_property = detailed_res['SearchResults:searchresults']
                     if(res_detailed_property['response']) {
-                        res_property['details'] = res_detailed_property['response']
+                        res_property['details'] = res_detailed_property['response']['results']['result']
                     }else{
                       res_property['details'] = {}
                     }

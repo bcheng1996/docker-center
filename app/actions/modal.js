@@ -12,3 +12,4 @@ export function hidePropertyModal() {
         type: HIDE_PROPERTY_MODAL
     }
 }
+

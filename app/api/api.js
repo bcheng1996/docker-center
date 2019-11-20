@@ -23,3 +23,26 @@ export async function getProperties() {
         return null;
     }
 }
+
+export async function addProperty(property) {
+    let url = base_url + '/properties'
+    try {
+        const response = await fetch(url, {
+            method: 'POST',
+            headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json',
+            },
+            mode: 'cors'
+        });
+
+        return response.text()
+        // const property_json = await parseString(property, (err, res)=>{
+        //     return(res['Zestimate:zestimate']['response'][0])
+        // })
+
+    } catch (error) {
+        console.error(error);
+        return null;
+    }
+}
