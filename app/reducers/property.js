@@ -9,6 +9,7 @@ import { Action } from './types';
 
 export const initialState = {
     properties: [],
+    property_ids: [],
     add_success: false,
     get_all_properties_success: false,
     loading: false,
@@ -27,7 +28,8 @@ export default function property(state: Dict = initialState, action: Action) {
             return Object.assign({}, state, {
                 loading: false,
                 add_success: true,
-                properties: state.properties.concat(action.property)
+                properties: state.properties.concat(action.property),
+                property_ids: state.property_ids.concat(action.property.id)
             })
         }
 
@@ -42,7 +44,8 @@ export default function property(state: Dict = initialState, action: Action) {
             return Object.assign({}, state, {
                 get_all_properties_success: true,
                 loading: false,
-                properties: action.properties
+                properties: action.properties,
+                property_ids: action.properties.map((val) => val.id)
             })
         }
 

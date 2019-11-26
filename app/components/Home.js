@@ -46,8 +46,8 @@ export default class Home extends Component<Props> {
   };
 
   handlePropertyCardClick = (property) => {
-    this.props.centerMap(property.Address.latitude, property.Address.longitude);
     this.props.selectProperty(property);
+    this.props.centerMap(property.Address.latitude, property.Address.longitude);
   }
 
   render() {

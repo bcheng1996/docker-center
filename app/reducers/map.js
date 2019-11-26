@@ -5,6 +5,7 @@ import type { Action } from './types';
 const initialState = {
     center: {lat: "38.908496", lng: "-77.180312"},
     selected_property: undefined,
+    selected_property_id: undefined
 }
 
 export default function map(state: Dict = initialState, action: Action) {
@@ -16,7 +17,8 @@ export default function map(state: Dict = initialState, action: Action) {
     
     case SELECT_PROPERTY:
         return Object.assign(state, {}, {
-            selected_property: action.property
+            selected_property: action.property,
+            selected_property_id: action.property.id
         })
 
     default:

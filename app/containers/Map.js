@@ -10,7 +10,8 @@ function mapStateToProps(state) {
       properties: state.property.properties,
       center: state.map.center,
       property: state.search.property,
-      selected_property: state.map.selected_property
+      selected_property: state.map.selected_property,
+      selected_property_id: state.map.selected_property_id
   };
 }
 

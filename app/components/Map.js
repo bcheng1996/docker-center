@@ -28,20 +28,13 @@ export default class MyMap extends Component {
     super(props);
     this.state = {
       mapStyle: 'mapbox://styles/mapbox/basic-v8',
-      properties: []
     };
   }
 
-  componentDidMount() {
-    Api.getProperties()
-      .then(res => {
-        this.setState({properties: JSON.parse(res)})
-      })
-  }
 
   render() {
     const { mapStyle } = this.state;
-    const { center, property, width, height, selected_property, properties, centerMap} = this.props;
+    const { center, property, width, height, selected_property, selected_property_id, properties, centerMap} = this.props;
     
     return (
       <Map
@@ -54,9 +47,25 @@ export default class MyMap extends Component {
         center={center? center: {'lng':-0.2416815, 'lat':51.5285582}}
         onDragEnd={(map) => centerMap(map.getCenter().lat, map.getCenter().lng)}
       >
+
+        <Layer>
+        {properties.map((val, index) => {
+            return(
+              <Popup 
+              coordinates={[val.Address.longitude, val.Address.latitude]}
+              anchor={"bottom"}
+              offset={[0,-10]}
+            >
+              <h1>{Format.formatCurrency(val.estimate)}</h1>
+            </Popup>
+            )
+          })}
+        </Layer>
+
+        
         <Layer type="symbol" id="circle" layout={{ 'icon-image': 'circle-15'}}>
           {properties.map((val, index) => {
-            if(selected_property && selected_property.id == val._id){
+            if(selected_property_id && selected_property_id == val._id){
               return <Feature/>
             }else{
               return <Feature key={val._id} coordinates={[val.Address.longitude, val.Address.latitude]}/>
@@ -77,7 +86,7 @@ export default class MyMap extends Component {
             )
           })}
 
-          {selected_property?         
+          {selected_property_id ?     
           <Marker 
             coordinates={{lat: selected_property.Address.latitude, lng: selected_property.Address.longitude}} 
             anchor={"bottom-left"}
@@ -85,28 +94,6 @@ export default class MyMap extends Component {
             offsetTop={128}> 
               <CityPin size={20}/> 
           </Marker>: null}
-
-{/* 
-        <Marker
-          coordinates={center}
-          anchor={"bottom-left"}
-          offsetLeft={-64}
-          offsetTop={128}
-        
-          >
-          <CityPin size={20}/>
-        </Marker>
- 
-        <Popup
-     
-          coordinates={center}
-          anchor={"bottom"}
-          offset={[0,-50]}
-          closeButton={true}
-          closeOnClick={true}
-        >
-         <PropertyPopup info={property}></PropertyPopup>
-        </Popup>  */}
 
       </Map>
     );

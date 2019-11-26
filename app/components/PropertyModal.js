@@ -12,6 +12,7 @@ import {
     Typography,
     Form,
     Rate,
+    Alert,
 } from 'antd'
 import Map from '../containers/Map';
 import FactsPane from './FactsPane';
@@ -22,7 +23,7 @@ import PropertyForm from './PropertyForm';
 
 const { Search } = Input;
 const { Title, Text } = Typography;
-const {Header, Content, Sider} = Layout;
+const {Header, Content, Sider, Footer} = Layout;
 
 type Props = {
     hidePropertyModal: () => void,
@@ -43,6 +44,7 @@ export default class PropertyModal extends Component {
         input_zpid: '',
         image_url: '',
         input_image_url: '',
+        can_submit: false,
       };
     
     timer = null;
@@ -63,6 +65,12 @@ export default class PropertyModal extends Component {
 
     handleSearch = (value) => {
         this.props.searchProperty(value)
+        if(this.props.property_ids.includes(parseInt(value))) {
+            this.setState({can_submit: false})
+        }else{
+            this.setState({can_submit: true})
+        }
+        
     }
 
     handleOk = (property) => {
@@ -74,7 +82,6 @@ export default class PropertyModal extends Component {
     };
     
     handleCancel = () => {
-        console.log('Clicked cancel button');
         this.props.hidePropertyModal();
     };
 
@@ -95,14 +102,15 @@ export default class PropertyModal extends Component {
     }
 
     handleDisabled = () => {
-        return this.state.image_url == ''
+        return (this.state.image_url == '' || !this.state.can_submit)
     }
 
     handleAfterClose = () => {
         this.setState({
             image_url: '',
             input_image_url: '',
-            input_zpid: ''
+            input_zpid: '',
+            can_submit: false,
         }, () => {
             this.props.emptySearch()
         })
@@ -156,6 +164,23 @@ export default class PropertyModal extends Component {
         )
     }
 
+    renderFooter = (property) => {
+        console.log(this.props.property_ids.includes(parseInt(property['zpid'])))
+        if(property && this.props.property_ids.includes(parseInt(property['zpid']))){
+            return(
+                <Footer style={{backgroundColor: Colors.white}}>
+                    <Alert
+                        message="Duplicate Property"
+                        description="This property is already in your list!"
+                        type="info"
+                        showIcon
+                    />
+                </Footer>
+            )
+        }
+        return null
+    }
+
     render() {
         const { visible, hidePropertyModal, searchProperty, is_searching, property, loading} = this.props 
         const { confirmLoading, ModalText, rating } = this.state;
@@ -193,6 +218,7 @@ export default class PropertyModal extends Component {
                             {Object.keys(property).length != 0  ? this.renderPropertyInfo(property) : 
                                 <Empty image={Empty.PRESENTED_IMAGE_SIMPLE}></Empty> }
                         </Content>
+                        {this.renderFooter(property)}
                     </Layout>
                 </Modal>
             </div>
