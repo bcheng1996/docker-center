@@ -11,7 +11,8 @@ import {
   Card,
   Typography,
   Input,
-  Modal
+  Modal,
+  message
 } from 'antd';
 import Map from '../containers/Map';
 import SearchHeader from '../containers/SearchHeader';
@@ -36,13 +37,30 @@ export default class Home extends Component<Props> {
   state = {
     collapsed: false
   };
+  
+
 
   componentDidMount() {
     this.props.getAllProperties();
   }
 
+  componentDidUpdate(prevProps) {
+    console.log("updated!")
+    if(prevProps.properties != this.props.properties) {
+      if(prevProps.properties.length == this.props.properties.length - 1){
+        message.success('New Property Added!', 5);
+      }else if(prevProps.properties.length == 0 && this.props.properties.length > 0) {
+        message.success('Properties Loaded!', 5)
+      }
+    }
+  }
+
   onCollapse = collapsed => {
-    this.setState({ collapsed });
+    if(collapsed){
+      this.setState({ collapsed, width: '100vw' });
+     }else{
+      this.setState({ collapsed, width: '75vw' });
+    }
   };
 
   handlePropertyCardClick = (property) => {
@@ -54,6 +72,7 @@ export default class Home extends Component<Props> {
     const { collapsed } = this.state;
     const { properties } = this.props
     const data = properties;
+
     return (
       <Layout>
         <PropertyModal />
@@ -67,7 +86,7 @@ export default class Home extends Component<Props> {
           <Layout>
             <Sider width={0} />
             <Content>
-              <Map />
+              <Map width='100vw' height='100vh'/>
             </Content>
             <Sider
               collapsible

@@ -18,7 +18,9 @@ const Map = ReactMapboxGl({
 
 type Props = {
   center: Dict,
-  property: Dict
+  property: Dict,
+  width: Number,
+  height: Number
 };
 
 export default class MyMap extends Component {
@@ -31,6 +33,12 @@ export default class MyMap extends Component {
     };
   }
 
+  getCenterWithOffset = (lat, lng) => {
+    return {
+      lat: lat,
+      lng: parseFloat(lng) + 0.1
+    }
+  }
 
   render() {
     const { mapStyle } = this.state;
@@ -44,7 +52,7 @@ export default class MyMap extends Component {
           width: width,
           overflowX: 'hidden'
         }}
-        center={center? center: {'lng':-0.2416815, 'lat':51.5285582}}
+        center={center? this.getCenterWithOffset(center.lat, center.lng): {'lng':-0.2416815, 'lat':51.5285582}}
         onDragEnd={(map) => centerMap(map.getCenter().lat, map.getCenter().lng)}
       >
 

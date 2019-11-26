@@ -13,6 +13,7 @@ import {
     Form,
     Rate,
     Alert,
+    message
 } from 'antd'
 import Map from '../containers/Map';
 import FactsPane from './FactsPane';
@@ -79,6 +80,7 @@ export default class PropertyModal extends Component {
         copy_property['images'] = [this.state.image_url]
 
         this.props.addProperty(copy_property)
+        this.props.hidePropertyModal();        
     };
     
     handleCancel = () => {
