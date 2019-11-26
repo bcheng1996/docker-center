@@ -6,7 +6,7 @@ export const initialState = {
   is_searching: false,
   search_term: "",
   property: {},
-  search_success: false,
+  search_failed: false,
   center: {lat: "38.908496", lng: "-77.180312"}
 }
 
@@ -20,14 +20,14 @@ export default function search(state: Dict = initialState, action: Action) {
     case RECIEVE_SEARCH:
       return Object.assign({}, state, {
         property: action.property,
-        search_success: true,
+        search_failed: false,
         is_searching: false
       });
 
     case SEARCH_FAIL:
       return Object.assign({}, state, {
         property: action.property,
-        search_success: false,
+        search_failed: true,
         property: state.property,
         is_searching: false
       });
@@ -39,7 +39,9 @@ export default function search(state: Dict = initialState, action: Action) {
 
     case EMPTY_SEARCH:
       return Object.assign({}, state, {
-        property: {}
+        property: {},
+        search_failed: false,
+        is_searching: false
       })
     
       

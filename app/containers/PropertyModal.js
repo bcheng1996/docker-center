@@ -10,6 +10,7 @@ function mapStateToProps(state) {
   return {
       visible: state.modal.visible,
       is_searching: state.search.is_searching,
+      search_failed: state.search.search_failed,
       property: state.search.property,
       property_ids: state.property.property_ids,
       loading: state.property.loading,

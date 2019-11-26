@@ -43,6 +43,7 @@ export default class PropertyModal extends Component {
         confirmLoading: false,
         rating: 2.5,
         input_zpid: '',
+        zpid: '',
         image_url: '',
         input_image_url: '',
         can_submit: false,
@@ -65,11 +66,18 @@ export default class PropertyModal extends Component {
 
 
     handleSearch = (value) => {
+        if(value == '') {
+            this.props.emptySearch()
+            return
+        }
+
         this.props.searchProperty(value)
         if(this.props.property_ids.includes(parseInt(value))) {
-            this.setState({can_submit: false})
+            this.setState({can_submit: false, zpid: value}, () => {
+
+            })
         }else{
-            this.setState({can_submit: true})
+            this.setState({can_submit: true, zpid: value})
         }
         
     }
@@ -167,7 +175,6 @@ export default class PropertyModal extends Component {
     }
 
     renderFooter = (property) => {
-        console.log(this.props.property_ids.includes(parseInt(property['zpid'])))
         if(property && this.props.property_ids.includes(parseInt(property['zpid']))){
             return(
                 <Footer style={{backgroundColor: Colors.white}}>
@@ -175,6 +182,19 @@ export default class PropertyModal extends Component {
                         message="Duplicate Property"
                         description="This property is already in your list!"
                         type="info"
+                        showIcon
+                    />
+                </Footer>
+            )
+        }
+
+        if(this.props.search_failed) {
+            return(
+                <Footer style={{backgroundColor: Colors.white}}>
+                    <Alert
+                        message="Search Failed"
+                        description={`Your search returned no results for zpid: ${this.state.zpid}`}
+                        type="warning"
                         showIcon
                     />
                 </Footer>
