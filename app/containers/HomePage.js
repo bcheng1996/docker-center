@@ -2,16 +2,17 @@
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import Home from '../components/Home';
-import * as ModalActions from '../actions/modal';
+import * as PropertyActions from '../actions/property';
+import * as MapActions from '../actions/map';
 
 function mapStateToProps(state){
   return {
-    visible: state.modal.visible
+    properties: state.property.properties
   };
 }
 
 function mapDispatchToProps(dispatch) {
-  return bindActionCreators(ModalActions, dispatch);
+  return bindActionCreators({...PropertyActions, ...MapActions}, dispatch);
 }
 
 export default connect(

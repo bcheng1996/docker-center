@@ -2,18 +2,20 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import Map from '../components/Map.js';
 import * as SearchActions from '../actions/search';
+import * as MapActions from '../actions/map';
 
 function mapStateToProps(state) {
-    console.log("STATE", state)
   return {
       search_term: state.search.search_term,
-      center: state.search.center,
+      properties: state.property.properties,
+      center: state.map.center,
       property: state.search.property,
+      selected_property: state.map.selected_property
   };
 }
 
 function mapDispatchToProps(dispatch) {
-  return bindActionCreators(SearchActions, dispatch);
+  return bindActionCreators({...SearchActions, ...MapActions}, dispatch);
 }
 
 export default connect(

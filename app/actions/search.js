@@ -1,4 +1,5 @@
 // @flow
+// Search Zillow API
 import type { GetState, Dispatch } from '../reducers/types';
 import * as Zillow from '../api/zillow';
 import * as Api from '../api/api';
@@ -7,12 +8,14 @@ const parser = new xml2js.Parser({'explicitArray': false})
 
 export const SEARCHING = "SEARCHING";
 export const RECIEVE_SEARCH = 'RECIEVE_SEARCH';
+export const SEARCH_FAIL = 'SEARCH_FAIL';
 export const CENTER_MAP = "CENTER_MAP";
+export const EMPTY_SEARCH = 'EMPTY_SEARCH';
 
 export function searching() {
   return {
     type: SEARCHING
-  }
+  };
 }
 
 export function search_success(property) {
@@ -22,15 +25,26 @@ export function search_success(property) {
   };
 }
 
+export function search_fail() {
+  return {
+    type: SEARCH_FAIL,
+  };
+}
+
 export function center_map(lat, lng) { 
-  console.log("LAT LONG", lat, lng)
   return {
     type: CENTER_MAP,
     center: {
       'lat': lat, 
       'lng': lng,
     }
-  }
+  };
+}
+
+export function emptySearch() {
+  return {
+    type: EMPTY_SEARCH
+  };
 }
 
 export function searchProperty(search_term) {
@@ -44,6 +58,10 @@ export function searchProperty(search_term) {
           // Initial response with property information
           parser.parseString(response, (err, res) => {
             let res_property = res['Zestimate:zestimate']['response']
+            if(!res_property) {
+              dispatch(search_fail())
+              return;
+            }
             // dispatch(search_success(res_property))
             // dispatch(center_map(res_property['address']['latitude'], res_property['address']['longitude']))
             Zillow.deepSearch(res_property['address']['street'], res_property['address']['city'] + ", " + res_property['address']['state'])

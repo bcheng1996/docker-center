@@ -17,6 +17,10 @@ import Map from '../containers/Map';
 import SearchHeader from '../containers/SearchHeader';
 import Colors from '../constants/Colors';
 import PropertyModal from '../containers/PropertyModal';
+import PropertyCard from '../components/PropertyCard';
+import PropertyPopup from './PropertyPopup';
+
+import * as Format from '../utils/format';
 
 const { Search } = Input;
 const { Header, Content, Sider } = Layout;
@@ -33,27 +37,23 @@ export default class Home extends Component<Props> {
     collapsed: false
   };
 
+  componentDidMount() {
+    this.props.getAllProperties();
+  }
+
   onCollapse = collapsed => {
-    console.log(collapsed);
     this.setState({ collapsed });
   };
 
+  handlePropertyCardClick = (property) => {
+    this.props.centerMap(property.Address.latitude, property.Address.longitude);
+    this.props.selectProperty(property);
+  }
+
   render() {
     const { collapsed } = this.state;
-    const data = [
-      {
-        title: 'Title 1'
-      },
-      {
-        title: 'Title 2'
-      },
-      {
-        title: 'Title 3'
-      },
-      {
-        title: 'Title 4'
-      }
-    ];
+    const { properties } = this.props
+    const data = properties;
     return (
       <Layout>
         <PropertyModal />
@@ -80,33 +80,19 @@ export default class Home extends Component<Props> {
               onCollapse={this.onCollapse}
             >
               <Content style={{ padding: 10 }}>
+                {/* <PropertyCard title="51747943" subtitle="201 Cardinal Ln, Nellysford, VA 22968" rightContent="5 bd | 8 ba | 15,000 sqft"/> */}
                 <List
                   grid={{ gutter: [10, 10], column: 2 }}
                   dataSource={data}
-                  renderItem={() => (
+                  renderItem={(property) => (
                     <List.Item>
-                      <Card
-                        hoverable
-                        style={styles.card}
-                        size="small"
-                        cover={
-                          <img
-                            alt="example"
-                            style={{ maxHeight: 125, objectFit: 'cover' }}
-                            src="https://freshome.com/wp-content/uploads/2018/09/contemporary-exterior.jpg"
-                          />
-                        }
-                      >
-                        <Row type="flex" justify="space-between" aligh="bottom">
-                          <Col>
-                            <Title level={4}>51747943</Title>
-                          </Col>
-                          <Col>5 bd | 8 ba | 15,000 sqft </Col>
-                        </Row>
-                        <Row>
-                          <Col>201 Cardinal Ln, Nellysford, VA 22968</Col>
-                        </Row>
-                      </Card>
+                      <PropertyCard 
+                        image={property.images[0]}
+                        title={Format.formatCurrency(property.estimate)} 
+                        subtitle={property.Address.street + ", " + property.Address.City.name + ", " + property.Address.State.name + " " + property.Address.zipcode}
+                        rightContent={`${property.bedrooms} bd | ${property.bathrooms} ba | ${property.finishedSqFt} sqft`}
+                        onClick={() => this.handlePropertyCardClick(property)}
+                      />
                     </List.Item>
                   )}
                 />

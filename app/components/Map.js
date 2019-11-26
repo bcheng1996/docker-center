@@ -6,6 +6,7 @@ import mapboxgl from 'mapbox-gl';
 import CityPin from '../constants/CityPin';
 import PropertyPopup from './PropertyPopup';
 import * as Api from '../api/api';
+import * as Format from '../utils/format';
 
 const MAPBOX_TOKEN =
   'pk.eyJ1IjoiYmNoZW5nMTk5NiIsImEiOiJjazJtb2k3OTgwazdsM2JqcHJ6eG4xbWExIn0.uBnju3v1L3jvMa3TzwH2mQ';
@@ -39,27 +40,52 @@ export default class MyMap extends Component {
   }
 
   render() {
-    const { mapStyle, properties } = this.state;
-    const { center, property } = this.props;
-    console.log('CENTER', center)
-
+    const { mapStyle } = this.state;
+    const { center, property, width, height, selected_property, properties, centerMap} = this.props;
+    
     return (
       <Map
         style={mapStyle}
         containerStyle={{
-          height: '100vh',
-          width: '100vw',
+          height: height,
+          width: width,
           overflowX: 'hidden'
         }}
         center={center? center: {'lng':-0.2416815, 'lat':51.5285582}}
+        onDragEnd={(map) => centerMap(map.getCenter().lat, map.getCenter().lng)}
       >
-        <Layer type="symbol" id="marker" layout={{ 'icon-image': 'marker-15' }}>
+        <Layer type="symbol" id="circle" layout={{ 'icon-image': 'circle-15'}}>
           {properties.map((val, index) => {
-            return(
-              <Feature key={val._id} coordinates={[val.address.longitude, val.address.latitude]}/>
-            )
+            if(selected_property && selected_property.id == val._id){
+              return <Feature/>
+            }else{
+              return <Feature key={val._id} coordinates={[val.Address.longitude, val.Address.latitude]}/>
+            }
           })}
         </Layer>
+
+
+          {properties.map((val, index) => {
+            return(
+              <Popup 
+              coordinates={[val.Address.longitude, val.Address.latitude]}
+              anchor={"bottom"}
+              offset={[0,-10]}
+            >
+              <h1>{Format.formatCurrency(val.estimate)}</h1>
+            </Popup>
+            )
+          })}
+
+          {selected_property?         
+          <Marker 
+            coordinates={{lat: selected_property.Address.latitude, lng: selected_property.Address.longitude}} 
+            anchor={"bottom-left"}
+            offsetLeft={-64}
+            offsetTop={128}> 
+              <CityPin size={20}/> 
+          </Marker>: null}
+
 {/* 
         <Marker
           coordinates={center}
@@ -85,4 +111,9 @@ export default class MyMap extends Component {
       </Map>
     );
   }
+}
+
+MyMap.defaultProps = {
+  height: '100vh',
+  width: '100vw'
 }

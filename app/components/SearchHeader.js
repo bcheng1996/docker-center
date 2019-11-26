@@ -79,7 +79,7 @@ export default class SearchHeader extends Component<Props> {
                         </Popover>
                     </Col>
 
-                    <Col offset={6} span={2}>
+                    <Col style={{'position': 'absolute', 'right': 0}}>
                         <Button type='dashed' icon="plus" onClick={showPropertyModal}>New Property</Button>
                     </Col>
                 </Row>
