@@ -4,6 +4,7 @@ import {
     GET_ALL_PROPERTIES, 
     RECIEVE_ALL_PROPERTIES, 
     FAILED_GETTING_PROPERTY,
+    SET_FILTERS
 } from '../actions/property';
 import { Action } from './types';
 
@@ -13,6 +14,7 @@ export const initialState = {
     add_success: false,
     get_all_properties_success: false,
     loading: false,
+    filters: {},
 }
 
 export default function property(state: Dict = initialState, action: Action) {
@@ -53,6 +55,12 @@ export default function property(state: Dict = initialState, action: Action) {
             return Object.assign({}, state, {
                 loading: false,
                 get_all_properties_success: false
+            })
+        }
+
+        case SET_FILTERS: {
+            return Object.assign({}, state, {
+                filters: action.filters
             })
         }
 

@@ -1,0 +1,5 @@
+.rightSideBar {
+    backgroundColor: white;
+    boxShadow: -3px 0px 10px rgba(0,0,0,0.15);
+    shadowOpacity: 0.3;
+}

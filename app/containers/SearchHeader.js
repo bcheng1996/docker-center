@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import SearchHeader from '../components/SearchHeader';
 import * as SearchActions from '../actions/search';
 import * as ModalActions from '../actions/modal';
+import * as PropertyActions from '../actions/property';
 
 function mapStateToProps(state) {
     return {
@@ -11,7 +12,7 @@ function mapStateToProps(state) {
 }
 
 function mapDispatchToProps(dispatch) {
-  return bindActionCreators({...SearchActions, ...ModalActions}, dispatch);
+  return bindActionCreators({...SearchActions, ...ModalActions, ...PropertyActions}, dispatch);
 }
 
 export default connect(

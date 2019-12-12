@@ -11,9 +11,7 @@ import Colors from '../constants/Colors';
 const {Title} = Typography;
 
 function PropertyCard(props){
-    const {image, title, subtitle, rightContent, onClick} = props;
-
-
+    const {image, title, subtitle, rightContent, height, onClick, footer} = props;
 
     return(
         <Card
@@ -23,7 +21,7 @@ function PropertyCard(props){
             cover={
                 <img
                 alt="example"
-                style={{ maxHeight: 125, objectFit: 'cover' }}
+                style={{ maxHeight: height, objectFit: 'cover' }}
                 src={image? image : "https://freshome.com/wp-content/uploads/2018/09/contemporary-exterior.jpg"}
                 />
             }
@@ -37,11 +35,18 @@ function PropertyCard(props){
             <Row>
                 <Col>{subtitle}</Col>
             </Row>
+            <Row>
+                <Col>{footer}</Col>
+            </Row>
         </Card>
         
     )
 };
 
-
+PropertyCard.defaultProps = {
+    height: '100vh',
+    footer: null
+  }
+  
 
 export default PropertyCard;

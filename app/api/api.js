@@ -1,8 +1,16 @@
 const base_url = 'http://localhost:3000'
 
 
-export async function getProperties() {
+export async function getProperties(filters) {
     let url = base_url + '/properties'
+    console.log(filters)
+    if(Object.keys(filters).length != 0) {
+        url += '?'
+        for(let filter of Object.keys(filters)) {
+            url+=`${filter}=${filters[filter]}&`
+        }
+    }
+    console.log(url)
     try {
         const response = await fetch(url, {
             method: 'GET',
@@ -71,4 +79,27 @@ export async function addProperty(property) {
         console.error(error);
         return null;
     }
+}
+
+export async function searchLocations(input) {
+    let url = base_url + "/search/searchLocations?input="+input
+    try {
+        const response = await fetch(url, {
+            method: 'GET', 
+            headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json',
+            },
+            mode: 'cors'
+        });
+        return response.json()
+        // const property_json = await parseString(property, (err, res)=>{
+        //     return(res['Zestimate:zestimate']['response'][0])
+        // })
+
+    } catch (error) {
+        console.error(error);
+        return null;
+    }
+
 }

@@ -5,14 +5,15 @@ import App from './containers/App';
 import SideBar from './components/SideBar';
 import HomePage from './containers/HomePage';
 import CounterPage from './containers/CounterPage';
+import PropertiesPage from './containers/PropertiesPage';
 
 export default () => (
   <App>
-    {/* <SideBar/> */}
     <SideBar>
       <Switch>
         <Route path={routes.COUNTER} component={CounterPage} />
-        <Route path={routes.HOME} component={HomePage} />
+        <Route path={routes.PROPERTIES} component={PropertiesPage} />
+        <Route exact path={routes.HOME} component={HomePage} />
       </Switch>
     </SideBar>
   </App>

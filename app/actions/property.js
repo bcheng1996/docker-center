@@ -3,6 +3,7 @@ export const ADDING_PROPERTY = "ADDING_PROPERTY";
 export const ADDED_PROPERTY = "ADDED_PROPERTY";
 export const RECIEVE_ALL_PROPERTIES = "RECIEVE_ALL_PROPERTIES";
 export const FAILED_GETTING_PROPERTY = "FAILED_GETTING_PROPERTY";
+export const SET_FILTERS = "SET_FILTERS";
 
 import * as Api from '../api/api';
 
@@ -38,6 +39,13 @@ export function propertyFailed() {
     }
 }
 
+export function setFilters(filters) {
+    return {
+        type: SET_FILTERS,
+        filters
+    }
+}
+
 export function addProperty(property) {
     return function(dispatch) {
 
@@ -55,11 +63,11 @@ export function addProperty(property) {
 }
 
 
-export function getAllProperties() {
+export function getAllProperties(filters=[]) {
     return function(dispatch) {
         dispatch(gettingProperties())
 
-        Api.getProperties()
+        Api.getProperties(filters)
         .then(res => {
             if(res) {
                 dispatch(recieveAllProperties(JSON.parse(res)))

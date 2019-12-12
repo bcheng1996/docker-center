@@ -39,7 +39,6 @@ export default class Home extends Component<Props> {
   };
   
 
-
   componentDidMount() {
     this.props.getAllProperties();
   }
@@ -47,6 +46,9 @@ export default class Home extends Component<Props> {
   componentDidUpdate(prevProps) {
     console.log("updated!")
     if(prevProps.properties != this.props.properties) {
+      if(prevProps.properties.length != 0 && this.props.properties.length == 0) {
+        message.warn('No Properties Found', 5)
+      }
       if(prevProps.properties.length == this.props.properties.length - 1){
         message.success('New Property Added!', 5);
       }else if(prevProps.properties.length == 0 && this.props.properties.length > 0) {
@@ -107,6 +109,7 @@ export default class Home extends Component<Props> {
                     <List.Item>
                       <PropertyCard 
                         image={property.images[0]}
+                        height={125}
                         title={Format.formatCurrency(property.estimate)} 
                         subtitle={property.Address.street + ", " + property.Address.City.name + ", " + property.Address.State.name + " " + property.Address.zipcode}
                         rightContent={`${property.bedrooms} bd | ${property.bathrooms} ba | ${property.finishedSqFt} sqft`}

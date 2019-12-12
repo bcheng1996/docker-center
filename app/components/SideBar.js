@@ -1,6 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Layout, Menu, Icon } from 'antd';
+import { Link } from 'react-router-dom';
+
+import styles from './SideBar.css';
+import routes from '../constants/routes';
 
 const { Sider } = Layout;
 const { SubMenu } = Menu;
@@ -30,14 +34,16 @@ export default class SideBar extends React.Component {
           collapsed={collapsed}
           onCollapse={this.onCollapse}
         >
-          <Menu theme="light" defaultSelectedKeys={['1']} mode="inline">
-            <Menu.Item key="1">
-              <Icon type="pie-chart" />
-              <span>Option 1</span>
+          <Menu theme="light" defaultSelectedKeys={['1']} mode="inline" onClick={({ item, key, keyPath }) => console.log(key)}>
+            <Menu.Item key="1" title="Explore">
+              <Icon type="search" />
+              Search
+              <Link to={routes.HOME} className={styles.link}>Home</Link>
             </Menu.Item>
-            <Menu.Item key="2">
-              <Icon type="desktop" />
-              <span>Option 2</span>
+            <Menu.Item key="2" title="Properties"> 
+              <Icon type="home" />
+              Properties
+              <Link to={routes.PROPERTIES} className={styles.link}>Properties</Link>
             </Menu.Item>
             <SubMenu
               key="sub1"
